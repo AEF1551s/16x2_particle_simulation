@@ -1,23 +1,32 @@
-//CMSIS
+// CMSIS
 #include <stm32f410rx.h>
 #include <stm32f4xx.h>
-//STD
+// STD
 #include <stdbool.h>
 #include <stdlib.h>
-//USER
-#include <gpio.h> //GPIO
-#include <exti.h> //EXTERNAL INTERUPS
+// USER
+#include <gpio.h>      //GPIO
+#include <exti.h>      //EXTERNAL INTERUPS
 #include <sipo_sreg.h> //SERIAL IN PARRALEL OUT SHIFT REGISTER
 
 int main()
 {
     // Setup
-    gpio_init();
-    exti_init();
+    // gpio_init();
+    // exti_init();
+    shift_register_init();
+    uint8_t data = 0;
 
     // Loop
     while (true)
     {
+        for (volatile int i = 0; i < 100000; i++)
+            ;
+
+        output_shift_register(&data);
+        for (volatile int i = 0; i < 100000; i++)
+            ;
+        data++;
     }
 
     return 0;
@@ -25,12 +34,12 @@ int main()
 
 // Interrupts
 void EXTI15_10_IRQHandler(void)
-{   
+{
     // switch (EXTI->PR)
     // {
     // case EXTI_PR_PR11:
     //     break;
-    
+
     // default:
     //     break;
     // }
