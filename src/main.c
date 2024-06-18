@@ -23,7 +23,7 @@ int main()
         for (volatile int i = 0; i < 100000; i++)
             ;
 
-        output_shift_register(&data);
+        output_shift_register(&data, 1);
         for (volatile int i = 0; i < 100000; i++)
             ;
         data++;
