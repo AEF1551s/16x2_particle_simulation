@@ -8,7 +8,7 @@ project(sipo_shift_register)
 add_executable(${PROJECT_NAME} src/main.c
                     src/gpio.c
                     src/exti.c
-                    stc/sipo_sreg.c
+                    src/sipo_sreg.c
                     startup/startup.c
 )
 
