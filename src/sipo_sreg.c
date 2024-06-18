@@ -23,28 +23,36 @@ void shift_register_disable()
     set_oe_pin();
 }
 
-void output_shift_register(uint8_t *data)
+void output_shift_register(uint8_t *data, uint32_t length)
 {
+    if (length <= 0)
+        return;
+
+    uint8_t mask = 0;
+
     reset_srclr_pin(); // Clear existing shift register
     set_srclr_pin();   // HIGH while writing serial data
 
-    uint8_t mask = 0;
-    // On rising edge of SRCLK SER input (LOW or HIGH) is written into shift register
-    for (uint32_t i = 0; i < 8; i++)
+    for (uint32_t i = 0; i < length; i++)
     {
-        mask = 1 << i;
+        // On rising edge of SRCLK SER input (LOW or HIGH) is written into shift register
+        for (uint32_t j = 0; j < 8; j++)
+        {
+            mask = 1 << j;
 
-        if (*data & mask)
-        {
-            set_ser_pin();
+            if (data[i] & mask)
+            {
+                set_ser_pin();
+            }
+            else
+            {
+                reset_ser_pin();
+            }
+
+            set_srclk_pin();
+            reset_srclk_pin();
+            mask = 0;
         }
-        else
-        {
-            reset_ser_pin();
-        }
-        set_srclk_pin();
-        reset_srclk_pin();
-        mask = 0;
     }
 
     // Output shift register, set ready for next output

@@ -24,7 +24,7 @@
 void shift_register_init();
 void shift_register_enable();
 void shift_register_disable();
-void output_shift_register(uint8_t *data);
+void output_shift_register(uint8_t *data, uint32_t length);
 
 // Possible to use #define, but this is safer and only in header scope
 //  All pins are GPIO PORT C
