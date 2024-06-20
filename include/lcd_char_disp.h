@@ -17,19 +17,28 @@
 
 void lcd_char_disp_init();
 
-//Functions
+// Functions
 void clear_display();
 void return_home();
-static void function_set(bool data_lenght, bool display_line, bool font);
+void entry_mode_set(bool cursor_direction, bool shift_display);
 static void display_control(bool display, bool cursor, bool blinking);
-static void init_sequence();
+static void cursor_display_shift(bool cursor_display, bool right_left);
+static void function_set(bool data_length, bool display_line, bool font);
+static void set_cgram_addr(uint8_t *addr);
+static void set_ddram_addr(uint8_t *addr);
 static bool is_busy();
+static void write_ram(uint8_t *data);
+static void read_ram();
+void output_char(char *data);
+static void init_sequence();
+void lcd_char_disp_init();
+
 //PIN set/reset
 static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;
     // TODO: implement timer
-    for (volatile int i = 0; i < 100000; i++)
+    for (volatile int i = 0; i < 10000; i++)
         ;
 }
 static inline void set_rw_pin() { GPIOC->BSRR = GPIO_BSRR_BS_6; }
