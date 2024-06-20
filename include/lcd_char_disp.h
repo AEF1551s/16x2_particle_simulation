@@ -22,6 +22,7 @@ void lcd_char_disp_init();
 static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;
+    //TODO: implement timer
     for (volatile int i = 0; i < 100000; i++)
         ;
 }
