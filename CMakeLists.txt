@@ -9,6 +9,7 @@ add_executable(${PROJECT_NAME} src/main.c
                     src/gpio.c
                     src/exti.c
                     src/sipo_sreg.c
+                    src/lcd_char_disp.c
                     startup/startup.c
 )
 
