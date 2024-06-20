@@ -147,8 +147,8 @@ void lcd_char_disp_init()
     SET_BIT(GPIOC->MODER, GPIO_MODER_MODER7_0);
 
     init_sequence();
-    // Cursor moves from left to right, display shift
+    // Cursor moves from left to right, display shift right
     entry_mode_set(true, false);
-    // Display on, no cursor and blinking
+    // Display on, cursor and blinking
     display_control(true, true, true);
 }
