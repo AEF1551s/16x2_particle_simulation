@@ -17,7 +17,7 @@ int main()
     // shift_register_init();
 
     char output;
-    char *string = "do re mi fa sol extra rinda";
+    char *string = "do re mi fa sol extra rinda sol";
     int index = 0;
     lcd_char_disp_init();
     // Loop
@@ -38,7 +38,7 @@ int main()
             for (volatile int i = 0; i < 350000; i++)
                 ;
         }
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 8; i++)
         {
             shift_display(true);
         }
