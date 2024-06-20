@@ -1,12 +1,8 @@
 
 # Description
 
-Reading RFID card UID using MFRC522 SPI interface and STM32F410RB NUCLEO.
-
-Part of MFRC522 library is rewritten in C from Arduino library - https://github.com/miguelbalboa/rfid
-
-Uses STM32 GPIO interrupts
-
+Particle simulation on 16x2 char display.
+# In development..
   
 
 ## Prerequisites
@@ -108,10 +104,7 @@ To see register contents, access serial output and read memory use extensions su
   For this to work inside VSCode the *launch* **OpenOCD configuration** and *settings* **cortex-debug** paths must be set.
 For additional debug features, setup VSCode as per **extension setup guides**.
 ## Reason for porting existing library
-RFID card reading requires knowledge of not only SPI communication with PCD, but also extensive knowledge of MIFARE/NFC and ISO standarts that describe RFID card reading etc. To understand this more broadly, existing library is rewritten, and then I look back at documentation (PICC selection/ identification flowcharts) to understand why certain steps are performed.
+...  
 
 ## Encountered problems and solutions
-
--  Missing documentation from NXP - about PICC commands and usage -> Use some information from ACS documentation.  
-- When flashing, it flashed, but nothing happened -> include startup.c, because OpenOCD starts writing from incorrect address.  
-- When debugging no register values and code were visible -> set compiler optimization to 0.  
+...  

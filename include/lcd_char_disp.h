@@ -40,7 +40,7 @@ static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;
     // TODO: implement timer
-    for (volatile int i = 0; i < 10000; i++)
+    for (volatile int i = 0; i < 5000; i++)
         ;
 }
 static inline void set_rw_pin() { GPIOC->BSRR = GPIO_BSRR_BS_6; }

@@ -1,5 +1,8 @@
 #include <lcd_char_disp.h>
 
+//TODO: write custom chars. Single point in all spaces. Total 40 custom chars. 
+//TODO: particle simulation on 16x2;
+
 // Functions
 static void send_function(uint8_t *data, bool rs, bool rw)
 {
@@ -118,7 +121,7 @@ void output_char_stream(char *string)
         if (!(index % 32))
         {
             // Full display, wait.
-            for (volatile int i = 0; i < 1000000; i++)
+            for (volatile int i = 0; i < 100000; i++)
                 ;
             clear_display();
             return_home();
