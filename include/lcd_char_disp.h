@@ -16,13 +16,19 @@
 // GPIOC PIN7 - RS - H: DATA, L: Instruction code
 
 void lcd_char_disp_init();
-// void clear_display();
-// static bool is_busy();
 
+//Functions
+void clear_display();
+void return_home();
+static void function_set(bool data_lenght, bool display_line, bool font);
+static void display_control(bool display, bool cursor, bool blinking);
+static void init_sequence();
+static bool is_busy();
+//PIN set/reset
 static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;
-    //TODO: implement timer
+    // TODO: implement timer
     for (volatile int i = 0; i < 100000; i++)
         ;
 }

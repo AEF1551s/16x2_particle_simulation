@@ -14,7 +14,7 @@ static void function_set(bool data_lenght, bool display_line, bool font)
     reset_e_pin();
 }
 
-static void clear_display()
+void clear_display()
 {
     reset_rs_pin();
     reset_rw_pin();
@@ -23,7 +23,7 @@ static void clear_display()
     reset_e_pin();
 }
 
-static void return_home()
+void return_home()
 {
     reset_rs_pin();
     reset_rw_pin();
@@ -48,6 +48,12 @@ static void init_sequence()
     return_home();
     clear_display();
 }
+
+static bool is_busy()
+{
+    // D7 which is connected to sipo shift register Q7 is busy flag.
+    // TODO: Add input pin for D7/Q7 to read busy flag - on going internal operation or not
+}
 // End Functions
 
 void lcd_char_disp_init()
@@ -66,8 +72,4 @@ void lcd_char_disp_init()
     init_sequence();
 }
 
-static bool is_busy()
-{
-    // D7 which is connected to sipo shift register Q7 is busy flag.
-    // TODO: Add input pin for D7/Q7 to read busy flag - on going internal operation or not
-}
+
