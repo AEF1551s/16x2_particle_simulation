@@ -30,9 +30,11 @@ static bool is_busy();
 static void write_ram(uint8_t *data);
 static void read_ram();
 void output_char(char *data);
+void output_char_stream(char *string);
 static void init_sequence();
 void lcd_char_disp_init();
-
+void shift_display(bool right_left);
+void shift_cursor(bool right_left);
 //PIN set/reset
 static inline void set_e_pin()
 {

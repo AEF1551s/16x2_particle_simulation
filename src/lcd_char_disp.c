@@ -41,9 +41,21 @@ static void display_control(bool display, bool cursor, bool blinking)
     send_function(&data, false, false);
 }
 // Set cursor moving and display shift control bit (H:L), and the direction (H:L), without changing of DDRAM data.
-static void cursor_display_shift(bool cursor_display, bool right_left)
+// static void cursor_display_shift(bool cursor_display, bool right_left)
+// {
+//     uint8_t data = 0x00 | 1U << 4 | cursor_display << 3 | right_left << 2;
+//     send_function(&data, false, false);
+// }
+// Cursor shift. right_left (H:L)
+void shift_cursor(bool right_left)
 {
-    uint8_t data = 0x00 | 1U << 4 | cursor_display << 3 | right_left << 2;
+    uint8_t data = 0x00 | 1U << 4 | right_left << 2;
+    send_function(&data, false, false);
+}
+// Display shif. right_left (H:L). Cursor follow display shift.
+void shift_display(bool right_left)
+{
+    uint8_t data = 0x00 | 1U << 4 | 1U << 3 | right_left << 2;
     send_function(&data, false, false);
 }
 // Set interface data length (DL:8-bit/4-bit), numbers of display line (N:2-line/1-line)and, display font type (F:5x11 dots/5x8 dots)
@@ -87,10 +99,32 @@ static void read_ram()
 // End Functions
 void output_char(char *data)
 {
-    // set_ddram_addr(0x00);
     write_ram(data);
-    // return_home();
-    // clear_display();
+}
+
+void output_char_stream(char *string)
+{
+    // Max 16x2 char display size.
+    // TODO: Write function to chop strings longer then 32 chars
+    uint32_t index = 0;
+    while (string[index] != '\0')
+    {
+        output_char(&string[index]);
+        index++;
+        if (!(index % 16))
+        {
+            // set_ddram_addr(&(uint8_t){0x40});
+            cursor_display_shift(false, true);
+        }
+        // if (!(index % 32))
+        // {
+        //     // Full display, wait.
+        //     for (volatile int i = 0; i < 1000000; i++)
+        //         ;
+        //     clear_display();
+        //     return_home();
+        // }
+    }
 }
 
 static void init_sequence()
@@ -114,8 +148,8 @@ void lcd_char_disp_init()
     SET_BIT(GPIOC->MODER, GPIO_MODER_MODER7_0);
 
     init_sequence();
-    //Cursor moves from left to right, no display shift
-    entry_mode_set(true, false);
-    //Display on, no cursor and blinking
+    // Cursor moves from left to right, display shift
+    entry_mode_set(true, true);
+    // Display on, no cursor and blinking
     display_control(true, false, false);
 }
