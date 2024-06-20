@@ -18,7 +18,7 @@
 // GPIOC PIN2 - RCLK - Register Clock
 // GPIOC PIN3 - SRCLK - Shift Register Clock
 // GPIOC PIN4 - SRCLR - Shift Register Clear
-// SR outputs - QA-QH (0-7)
+// SR outputs - QA-QH (0-7) MSB!
 
 // bsrr registers for enabling GPIO pins used in bit shift register
 void shift_register_init();
