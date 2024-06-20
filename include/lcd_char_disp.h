@@ -22,7 +22,7 @@ void clear_display();
 void return_home();
 void entry_mode_set(bool cursor_direction, bool shift_display);
 static void display_control(bool display, bool cursor, bool blinking);
-static void cursor_display_shift(bool cursor_display, bool right_left);
+// static void cursor_display_shift(bool cursor_display, bool right_left);
 static void function_set(bool data_length, bool display_line, bool font);
 static void set_cgram_addr(uint8_t *addr);
 static void set_ddram_addr(uint8_t *addr);

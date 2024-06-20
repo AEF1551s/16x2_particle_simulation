@@ -8,25 +8,26 @@
 #include <gpio.h>      //GPIO
 #include <exti.h>      //EXTERNAL INTERUPS
 #include <sipo_sreg.h> //SERIAL IN PARRALEL OUT SHIFT REGISTER
-
+#include <lcd_char_disp.h>
 int main()
 {
     // Setup
     // gpio_init();
     // exti_init();
-    shift_register_init();
-    uint8_t data = 0;
+    // shift_register_init();
 
+    char output;
+    char* string = "do re mi fa sol";
+    lcd_char_disp_init();
     // Loop
     while (true)
     {
-        for (volatile int i = 0; i < 100000; i++)
+        clear_display();
+        return_home();
+        //test
+        output_char_stream(string);
+        for (volatile int i = 0; i < 1000000; i++)
             ;
-
-        output_shift_register(&data, 1);
-        for (volatile int i = 0; i < 100000; i++)
-            ;
-        data++;
     }
 
     return 0;

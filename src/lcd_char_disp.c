@@ -113,17 +113,16 @@ void output_char_stream(char *string)
         index++;
         if (!(index % 16))
         {
-            // set_ddram_addr(&(uint8_t){0x40});
-            cursor_display_shift(false, true);
+            set_ddram_addr(&(uint8_t){0x40});
         }
-        // if (!(index % 32))
-        // {
-        //     // Full display, wait.
-        //     for (volatile int i = 0; i < 1000000; i++)
-        //         ;
-        //     clear_display();
-        //     return_home();
-        // }
+        if (!(index % 32))
+        {
+            // Full display, wait.
+            for (volatile int i = 0; i < 1000000; i++)
+                ;
+            clear_display();
+            return_home();
+        }
     }
 }
 
@@ -149,7 +148,7 @@ void lcd_char_disp_init()
 
     init_sequence();
     // Cursor moves from left to right, display shift
-    entry_mode_set(true, true);
+    entry_mode_set(true, false);
     // Display on, no cursor and blinking
-    display_control(true, false, false);
+    display_control(true, true, true);
 }
