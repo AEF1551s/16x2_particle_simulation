@@ -17,19 +17,38 @@ int main()
     // shift_register_init();
 
     char output;
-    char* string = "do re mi fa sol";
+    char *string = "do re mi fa sol extra rinda";
+    int index = 0;
     lcd_char_disp_init();
     // Loop
     while (true)
     {
-        clear_display();
-        return_home();
-        //test
-        output_char_stream(string);
-        for (volatile int i = 0; i < 1000000; i++)
-            ;
-    }
+        // clear_display();
+        // return_home();
+        // test
+        if (index == 0)
+        {
+            output_char_stream(string);
+        }
+        index = 1;
 
+        for (int i = 0; i < 16; i++)
+        {
+            shift_display(true);
+            for (volatile int i = 0; i < 350000; i++)
+                ;
+        }
+        for (int i = 0; i < 9; i++)
+        {
+            shift_display(true);
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            shift_display(true);
+            for (volatile int i = 0; i < 350000; i++)
+                ;
+        }
+    }
     return 0;
 }
 
