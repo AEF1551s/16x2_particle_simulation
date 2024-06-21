@@ -70,8 +70,8 @@ static void function_set(bool data_lenght, bool display_line, bool font)
 // Set CGRAM address in address counter.
 static void set_cgram_addr(uint8_t *addr)
 {
-    uint8_t data = 0x00 | 1U << 6;
-    data |= *addr;
+    uint8_t data = 0x00 | 1U << 6 | *addr;
+    // data |= *addr;
     // data &= ~(1U << 7);
     send_function(&data, false, false);
 }
@@ -90,7 +90,7 @@ static bool is_busy()
 }
 
 // Write data into internal RAM (DDRAM/CGRAM).
-static void write_ram(uint8_t *data)
+void write_ram(uint8_t *data)
 {
     send_function(data, true, false);
 }
@@ -100,25 +100,55 @@ static void read_ram()
     // rs and rw high
 }
 // End Functions
-void output_char(char *data)
+
+void add_custom_char(uint8_t base_addr, uint8_t *array, uint32_t length)
 {
+    if (length != 8)
+        return;
+        
+    set_cgram_addr(&base_addr);
+
+    for (uint32_t i = 0; i < length; i++)
+        write_ram(&(array[i]));
+}
+
+void output_char(char *data, uint8_t position) // Position from 0 to 31.
+{
+    if (position > 31)
+        return;
+
+    uint8_t addr = 0x00;
+
+    // Convert from position to address
+    // From 0 to 15 is the same as 0x00 to 0x0F
+    // From 16-31 is 0x40 to 0x4F
+    if (position <= 15)
+    {
+        addr = position;
+    }
+    if (position >= 16)
+    {
+        addr = position % 16;
+        addr += 0x40;
+    }
+    set_ddram_addr(&addr);
     write_ram(data);
 }
-//Outputs string. If string is longer then 32, it prints over the first row. 
-//TODO: Implement option for wait time if string > 32;
+// Outputs string. If string is longer then 32, it prints over the first row.
+// TODO: Implement option for wait time if string > 32;
 void output_string(char *string)
 {
     uint32_t index = 0;
     while (string[index] != '\0')
     {
-        output_char(&string[index]);
+        write_ram(&string[index]);
         index++;
-        //Char past 1st  row = end; Set to 2nd row
+        // Char past 1st  row = end; Set to 2nd row
         if (!(index % 16))
         {
             set_ddram_addr(&(uint8_t){0x40});
         }
-        //Char past 2nd row. Return to 1st row 0x00 = home
+        // Char past 2nd row. Return to 1st row 0x00 = home
         if (!(index % 32))
         {
             return_home();
@@ -150,5 +180,5 @@ void lcd_char_disp_init()
     // Cursor moves from left to right, display shift right
     entry_mode_set(true, false);
     // Display on, cursor and blinking
-    display_control(true, true, true);
+    display_control(true, false, false);
 }

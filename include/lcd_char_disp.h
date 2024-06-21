@@ -27,14 +27,20 @@ static void function_set(bool data_length, bool display_line, bool font);
 static void set_cgram_addr(uint8_t *addr);
 static void set_ddram_addr(uint8_t *addr);
 static bool is_busy();
-static void write_ram(uint8_t *data);
+void write_ram(uint8_t *data);
 static void read_ram();
-void output_char(char *data);
+void shift_display(bool right_left);
+void shift_cursor(bool right_left);
+
+// User functions
+void output_char(char *data, uint8_t position); //Might cause problems, because it writes just RAM. 
 void output_string(char *string);
 static void init_sequence();
 void lcd_char_disp_init();
-void shift_display(bool right_left);
-void shift_cursor(bool right_left);
+
+//Character generation
+void add_custom_char(uint8_t addr, uint8_t *array, uint32_t length);
+
 //PIN set/reset
 static inline void set_e_pin()
 {
