@@ -10,6 +10,8 @@ add_executable(${PROJECT_NAME} src/main.c
                     src/exti.c
                     src/sipo_sreg.c
                     src/lcd_char_disp.c
+                    src/particle_char_generator.c
+                    startup/sysmem.c
                     startup/startup.c
 )
 
