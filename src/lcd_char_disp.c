@@ -1,7 +1,7 @@
 #include <lcd_char_disp.h>
 
-//TODO: write custom chars. Single point in all spaces. Total 40 custom chars. 
-//TODO: particle simulation on 16x2;
+// TODO: write custom chars. Single point in all spaces. Total 40 custom chars.
+// TODO: particle simulation on 16x2;
 
 // Functions
 static void send_function(uint8_t *data, bool rs, bool rw)
@@ -104,26 +104,23 @@ void output_char(char *data)
 {
     write_ram(data);
 }
-
-void output_char_stream(char *string)
+//Outputs string. If string is longer then 32, it prints over the first row. 
+//TODO: Implement option for wait time if string > 32;
+void output_string(char *string)
 {
-    // Max 16x2 char display size.
-    // TODO: Write function to chop strings longer then 32 chars
     uint32_t index = 0;
     while (string[index] != '\0')
     {
         output_char(&string[index]);
         index++;
+        //Char past 1st  row = end; Set to 2nd row
         if (!(index % 16))
         {
             set_ddram_addr(&(uint8_t){0x40});
         }
+        //Char past 2nd row. Return to 1st row 0x00 = home
         if (!(index % 32))
         {
-            // Full display, wait.
-            for (volatile int i = 0; i < 100000; i++)
-                ;
-            clear_display();
             return_home();
         }
     }
