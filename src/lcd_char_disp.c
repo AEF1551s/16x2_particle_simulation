@@ -1,8 +1,5 @@
 #include <lcd_char_disp.h>
 
-// TODO: write custom chars. Single point in all spaces. Total 40 custom chars.
-// TODO: particle simulation on 16x2;
-
 // Functions
 static void send_function(uint8_t *data, bool rs, bool rw)
 {
@@ -105,7 +102,7 @@ void add_custom_char(uint8_t base_addr, uint8_t *array, uint32_t length)
 {
     if (length != 8)
         return;
-        
+
     set_cgram_addr(&base_addr);
 
     for (uint32_t i = 0; i < length; i++)
