@@ -103,8 +103,6 @@ To see register contents, access serial output and read memory use extensions su
   
   For this to work inside VSCode the *launch* **OpenOCD configuration** and *settings* **cortex-debug** paths must be set.
 For additional debug features, setup VSCode as per **extension setup guides**.
-## Reason for porting existing library
-...  
 
 ## Encountered problems and solutions
 ...  
