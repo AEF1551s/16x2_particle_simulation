@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME} src/main.c
                     src/sipo_sreg.c
                     src/lcd_char_disp.c
                     src/particle_char_generator.c
+                    src/physics.c
                     startup/sysmem.c
                     startup/startup.c
 )
@@ -47,10 +48,11 @@ set(openocd_flags
     -l openocdlog
 )
 
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND openocd ${openocd_flags} )
 # -D FLASH=ON
-if(FLASH)
+if(FLASH==ON)
 message("run make to flash")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND openocd ${openocd_flags} )
-
 endif()         
