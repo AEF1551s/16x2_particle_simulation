@@ -17,26 +17,23 @@ int main()
     // Setup
     lcd_char_disp_init();
     struct particle p1;
-    
+    p1.pos.x = 40;
+    p1.pos.y = 15;
+    p1.acc.x = 0;
+    p1.acc.y = 0;
+    p1.vel.x = 2;
+    p1.vel.y = 8;
+    spawn_particle(&p1);
     // Loop
     while (true)
     {
         // TEST
-        for (int i = 0; i < 16; i++) // height
-        {
-            for (int j = 0; j < 80; j++) // width
-            {
-                // for (volatile int i = 0; i < 50000; i++)
-                //     ;
-                p1.pos.x = j;
-                p1.pos.y = i;
-                // Loop
-                spawn_particle(&p1);
-                for (volatile int i = 0; i < 30000; i++) // If delay is smaller then this, LCD doesnt reach its maximum contrast, hard to see the particle.
-                    ;
-                clear_display();
-            }
-        }
+        update_particle(&p1);
+
+        for (volatile int i = 0; i < 100000; i++) // If delay is smaller then 30000, LCD doesnt reach its maximum contrast, hard to see the particle.
+            ;
+
+        clear_display();
     }
     return 0;
 }
