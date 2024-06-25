@@ -5,20 +5,22 @@
 #include <lcd_char_disp.h>
 #include <particle_char_generator.h>
 
+//Position 0;0 is LCD top left corner. x+ axis is right direction; y+ axis is up direction;
 struct position
 {
-    uint8_t x; // 0 - 79
-    uint8_t y; // 0 - 17
+    int8_t x; // 0 - 79
+    int8_t y; // 0 - 17
 };
 struct velocity
 {
-    uint8_t x;
-    uint8_t y;
+    int8_t x;
+    int8_t y;
 };
+//Can be negative
 struct acceleration
 {
-    uint8_t x;
-    uint8_t y;
+    int8_t x;
+    int8_t y;
 };
 struct particle
 {
@@ -39,6 +41,8 @@ static struct particle *particle_array[1];
 static uint32_t particle_count = 0;
 
 void spawn_particle(struct particle *particle);
+void update_particle();
+void update_particle(struct particle *particle);
 
 static struct relative_position char_pos_from_absolute(struct position *position); // Gets char box positon and pixel position from absolute coordinates
 #endif                                                                             // PHYSICS_H
