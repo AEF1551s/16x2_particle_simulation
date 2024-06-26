@@ -34,6 +34,17 @@ void update_particle(struct particle *particle)
     // Calculate new velocity with gravity
     particle->vel.y -= g;
 
+    //Overflow check for Y axis due to gravity
+    //Screen is only 80x16 pixels wide, so no need to check more then that
+    if (particle->vel.y > 80)
+    {
+        particle->vel.y = 80;
+    }
+    if (particle->vel.y < -80)
+    {
+        particle->vel.y = -80;
+    }
+
     // New position from velocity
     particle->pos.x += particle->vel.x;
     particle->pos.y -= particle->vel.y;
