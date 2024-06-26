@@ -46,6 +46,7 @@ void spawn_all_particles();
 void update_particle(struct particle *particle);
 void update_all_particles();
 void display_single_particle(struct particle *particle);
+void display_all_particles();
 void free_all_particles();
 
 static struct relative_position char_pos_from_absolute(struct position *position); // Gets char box positon and pixel position from absolute coordinates

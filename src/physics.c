@@ -5,7 +5,7 @@ void display_single_particle(struct particle *particle)
     struct relative_position rel_pos;
     rel_pos = char_pos_from_absolute(&particle->pos);
     generate_single_pixel_char(rel_pos.pixel_position.y, rel_pos.pixel_position.x);
-    //TODO: Based on particle counter change cgram adress, so it is possible to display up to 8 particles at the same time
+    // TODO: Based on particle counter change cgram adress, so it is possible to display up to 8 particles at the same time
     output_char(&(uint8_t){0x00}, rel_pos.char_seq);
 }
 void spawn_particle(struct particle *particle)
@@ -54,9 +54,6 @@ void update_particle(struct particle *particle)
     // Buttom
     if (particle->pos.y > 15)
         particle->pos.y = 15;
-
-    // Display particle
-    display_single_particle(particle);
 }
 void spawn_all_particles()
 {
@@ -74,14 +71,20 @@ void update_all_particles()
     for (uint8_t i = 0; i < particle_count; i++)
     {
         update_particle(&particle_array[i]);
-        for (volatile int i = 0; i < 50000; i++)
-        {
-            ;
-        }
-        clear_display();
     }
 }
-
+void display_all_particles()
+{
+    /* TODO: Write all particles (MAX = 8), into seperate characters,
+    if more then 1 particle is in 1 char then write all of these into that char.
+    Display only nessecery char.*/
+    for (uint32_t i = 0; i < particle_count; i++)
+    {
+        display_single_particle(&particle_array[i]);
+        for (volatile int i = 0; i < 50000; i++)
+            ;
+    }
+}
 static struct relative_position char_pos_from_absolute(struct position *position)
 {
     struct relative_position rel_pos;
