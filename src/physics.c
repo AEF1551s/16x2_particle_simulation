@@ -94,6 +94,7 @@ void display_all_particles()
         display_single_particle(&particle_array[i]);
         for (volatile int i = 0; i < 50000; i++)
             ;
+        clear_display();
     }
 }
 static struct relative_position char_pos_from_absolute(struct position *position)
@@ -129,7 +130,7 @@ void add_particle(struct particle *particle)
     if (particle_count > 0)
     {
         // Copy previous particles, add new
-        struct particle *temp = realloc(particle_array, sizeof(struct particle) * particle_count + sizeof(struct particle));
+        struct particle *temp = realloc(particle_array, sizeof(struct particle) * (particle_count +1));
         particle_array = temp;
     }
 
