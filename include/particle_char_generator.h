@@ -5,13 +5,13 @@
 #include <stdlib.h>
 
 #include <lcd_char_disp.h>
+#include <positions.h>
 
 #define CHAR_WIDTH 5
 #define CHAR_HEIGTH 8
 
-//TODO: Add description
+// TODO: Add description
 
-//Generated pixel character in CGRAM base address 0x00
-void generate_single_pixel_char(uint8_t row, uint8_t col);
+struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, uint8_t *char_indexes, uint8_t particle_count);
 
 #endif // PARTICLE_CHAR_H
