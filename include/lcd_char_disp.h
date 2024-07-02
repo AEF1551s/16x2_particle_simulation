@@ -33,15 +33,15 @@ void shift_display(bool right_left);
 void shift_cursor(bool right_left);
 
 // User functions
-void output_char(char *data, uint8_t position); //Might cause problems, because it writes just RAM. 
+void output_char(char *data, uint8_t position); // Might cause problems, because it writes just RAM.
 void output_string(char *string);
 static void init_sequence();
 void lcd_char_disp_init();
 
-//Character generation
-void add_custom_char(uint8_t addr, uint8_t *array, uint32_t length);
+// Character generation
+void add_custom_char(uint8_t addr, uint8_t *array, uint32_t length, bool set_cgram);
 
-//PIN set/reset
+// PIN set/reset
 static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;

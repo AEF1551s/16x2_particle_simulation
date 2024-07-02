@@ -98,13 +98,14 @@ static void read_ram()
 }
 // End Functions
 
-void add_custom_char(uint8_t base_addr, uint8_t *array, uint32_t length)
+void add_custom_char(uint8_t base_addr, uint8_t *array, uint32_t length, bool set_cgram)
 {
     if (length != 8)
         return;
-
-    set_cgram_addr(&base_addr);
-
+    if (set_cgram == true)
+    {
+        set_cgram_addr(&base_addr);
+    }
     for (uint32_t i = 0; i < length; i++)
         write_ram(&(array[i]));
 }
@@ -132,7 +133,6 @@ void output_char(char *data, uint8_t position) // Position from 0 to 31.
     write_ram(data);
 }
 // Outputs string. If string is longer then 32, it prints over the first row.
-// TODO: Implement option for wait time if string > 32;
 void output_string(char *string)
 {
     uint32_t index = 0;
