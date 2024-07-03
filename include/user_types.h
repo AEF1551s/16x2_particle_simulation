@@ -1,8 +1,10 @@
 #if !defined(USER_TYPEDEFS_H)
 #define USER_TYPEDEFS_H
 
+// CMSIS
 #include <stm32f410rx.h>
 #include <stm32f4xx.h>
+// STD
 #include <stdbool.h>
 
 typedef enum
@@ -54,7 +56,6 @@ typedef struct
     GPIO_TypeDef *GPIOx;
     pin_TypeDef pinx;
     pin_mode_TypeDef mode;
-    // TODO:Flag to check if the pin has already been set
 } pin_struct_TypeDef;
 
 #endif // USER_TYPEDEFS_H

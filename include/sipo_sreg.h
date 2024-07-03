@@ -7,20 +7,21 @@
 // STD
 #include <stdbool.h>
 
-// SER before SRCLK high is 20ns. AHB1 period is 10ns
-// Without compiler optimization still works because each function takes more than 1 period.
-// TODO: Should I add NOP?
-// Everything works on rising edge
+/*
+SER before SRCLK high is 20ns. AHB1 period is 10ns
+Without compiler optimization still works because each function takes more than 1 period. Maybe add NOP
+Everything works on rising edge
 
-// Pins
-// GPIOC PIN0 - SER - Serial In
-// GPIOC PIN1 - OE - Output Enable (Low to enable)
-// GPIOC PIN2 - RCLK - Register Clock
-// GPIOC PIN3 - SRCLK - Shift Register Clock
-// GPIOC PIN4 - SRCLR - Shift Register Clear
-// SR outputs - QA-QH (0-7) MSB!
+Pins
+GPIOC PIN0 - SER - Serial In
+GPIOC PIN1 - OE - Output Enable (Low to enable)
+GPIOC PIN2 - RCLK - Register Clock
+GPIOC PIN3 - SRCLK - Shift Register Clock
+GPIOC PIN4 - SRCLR - Shift Register Clear
+SR outputs - QA-QH (0-7) MSB!
+*/
 
-// bsrr registers for enabling GPIO pins used in bit shift register
+// BSRR registers for enabling GPIO pins used in bit shift register
 void shift_register_init();
 void shift_register_enable();
 void shift_register_disable();

@@ -1,7 +1,14 @@
 #if !defined(POSITIONS_H)
 #define POSITIONS_H
 
+// STD
 #include <stdint.h>
+
+/*
+position - x and y coordinates
+relative_position - LCD character and index positions; Also pixel position in singel character
+char_seq_cgram_count - contains used CGRAM address count and pointer to LCD character index array 
+*/
 
 struct position
 {
