@@ -3,22 +3,19 @@
 // Returns count of used CGRAM addresses
 struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, uint8_t *char_indexes, uint8_t particle_count)
 {
-    // TODO: check rows/columns if correct put
     if (particle_count == 0 || particle_count > 8)
     {
         return NULL;
     }
 
-    // Return space
     struct char_seq_cgram_count *result = (struct char_seq_cgram_count *)malloc(sizeof(struct char_seq_cgram_count));
 
     uint8_t used_addr = particle_count;
     uint8_t current_addr = 0;
 
-    // used_index to keep track of already checked indexes.
-    // bool *checked = (bool *)calloc(particle_count, sizeof(bool));
-    bool checked[particle_count];
-    // array to write into CGRAM
+    // Used_index to keep track of already checked indexes.
+    bool *checked = (bool *)calloc(particle_count, sizeof(bool));
+    // Array to write into CGRAM
     uint8_t *array = (uint8_t *)calloc(CHAR_HEIGTH, sizeof(uint8_t));
 
     uint8_t result_char_array_size = 1;
@@ -36,13 +33,11 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
         }
         else
         {
-
             // 0 the array for new particle
             for (uint8_t k = 0; k < CHAR_HEIGTH; k++)
             {
                 array[k] = 0x00;
             }
-            // TODO: FIX EXTRA SPACE ALLOCATION
             // Saves primary char indexes into array
             result_char_array[result_char_array_count] = char_indexes[i];
             result_char_array_size++;
@@ -91,8 +86,8 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
         current_addr++;
     }
 
-    // free(checked);
-    // checked = NULL;
+    free(checked);
+    checked = NULL;
     free(array);
     array = NULL;
 
