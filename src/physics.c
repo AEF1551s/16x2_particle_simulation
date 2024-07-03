@@ -1,15 +1,27 @@
 #include <physics.h>
-
-void add_particle(struct particle *particle)
+// Calculates relative position (LCD character, pixel within character and LCD character index/address) from absolute (x:0-79 y:0-15)
+static struct relative_position char_pos_from_absolute(struct position *position)
 {
-    // MAX 8 PARTICLES
-    if (particle_count > 8)
-    {
-        return;
-    }
+    struct relative_position rel_pos;
 
-    // Make sure the particle stays within the LCD screen borders
-    // Left sied
+    // Returns char position and pixel position in char
+    int8_t abs_pos_x = position->x;
+    int8_t abs_pos_y = position->y;
+
+    // 16x2 5x8 ;16x5 = 80 absolute x;
+    // 2*8 = 16 absolute y
+    rel_pos.char_position.x = abs_pos_x / 5;
+    rel_pos.char_position.y = abs_pos_y / 8;
+    rel_pos.pixel_position.x = abs_pos_x % 5;
+    rel_pos.pixel_position.y = abs_pos_y % 8;
+
+    rel_pos.char_seq = rel_pos.char_position.y * 16 + rel_pos.char_position.x;
+    return rel_pos;
+}
+// Make sure the particle stays within the LCD screen borders
+static void force_lcd_borders(struct particle *particle)
+{
+    // Left side
     if (particle->pos.x < 0)
         particle->pos.x = 0;
     // Right side
@@ -17,14 +29,41 @@ void add_particle(struct particle *particle)
         particle->pos.x = 79;
     // Top
     if (particle->pos.y < 0)
-    {
         particle->pos.y = 0;
-        particle->acc.y = 0;
-        particle->vel.y = 0;
-    }
     // Buttom
     if (particle->pos.y > 15)
         particle->pos.y = 15;
+}
+// When hits a wall, bounces back with reduced acceleration.
+static void add_wall_bounce(struct particle *particle)
+{
+    const int8_t top_buttom_const = 1;
+    const int8_t left_rigt_const = 2;
+    // Left side
+    if (particle->pos.x <= 0 && particle->vel.x < 0)
+        particle->vel.x = -particle->vel.x / left_rigt_const; // Reverse direction and reduce speed
+    // Right side
+    if (particle->pos.x >= 79 && particle->vel.x > 0)
+        particle->vel.x = -particle->vel.x / left_rigt_const;
+    // Top
+    if (particle->pos.y <= 0 && particle->vel.y > 0)
+        particle->vel.y = -particle->vel.y / top_buttom_const;
+    // Bottom
+    if (particle->pos.y >= 15 && particle->vel.y < 0)
+        particle->vel.y = -particle->vel.y / top_buttom_const;
+}
+// Add particle to particle array for further use
+void add_particle(struct particle *particle)
+{
+    // MAX 8 PARTICLES
+    if (particle_count > 8)
+    {
+        // If particle count stays 9, it can interfere with other functions that take particle_count as argument
+        particle_count = 8;
+        return;
+    }
+
+    force_lcd_borders(particle);
 
     // Allocate space for particles
     if (particle_count == 0)
@@ -34,13 +73,13 @@ void add_particle(struct particle *particle)
     if (particle_count > 0)
     {
         // Copy previous particles, add new
-        struct particle *temp = realloc(particle_array, sizeof(struct particle) * (particle_count + 1));
-        particle_array = temp;
+        particle_array = realloc(particle_array, sizeof(struct particle) * (particle_count + 1));
     }
 
     particle_array[particle_count] = *particle;
     particle_count++;
 }
+// Update particle position, velocity and acceleration.
 void update_particle(struct particle *particle)
 {
     // Gravity
@@ -50,37 +89,21 @@ void update_particle(struct particle *particle)
     particle->vel.y -= g;
 
     // Overflow check for Y axis due to gravity
-    // Screen is only 80x16 pixels wide, so no need to check more then that
+    // Screen is only 80x16 pixels wide, so no need to check more
     if (particle->vel.y > 80)
-    {
         particle->vel.y = 80;
-    }
+
     if (particle->vel.y < -80)
-    {
         particle->vel.y = -80;
-    }
 
     // New position from velocity
     particle->pos.x += particle->vel.x;
     particle->pos.y -= particle->vel.y;
-    // Make sure the particle stays within the LCD screen borders
-    // Left sied
-    if (particle->pos.x < 0)
-        particle->pos.x = 0;
-    // Right side
-    if (particle->pos.x > 79)
-        particle->pos.x = 79;
-    // Top
-    if (particle->pos.y < 0)
-    {
-        particle->pos.y = 0;
-        particle->acc.y = 0;
-        particle->vel.y = 0;
-    }
-    // Buttom
-    if (particle->pos.y > 15)
-        particle->pos.y = 15;
+
+    add_wall_bounce(particle);
+    force_lcd_borders(particle);
 }
+// Update all particles position, velocity and acceleration.
 void update_all_particles()
 {
     for (uint8_t i = 0; i < particle_count; i++)
@@ -88,6 +111,7 @@ void update_all_particles()
         update_particle(&particle_array[i]);
     }
 }
+// Display all particles
 void display_all_particles()
 {
     if (particle_count == 0)
@@ -122,27 +146,10 @@ void display_all_particles()
     free(cgram_count);
     cgram_count = NULL;
 }
+// Free particle_array memory
 void free_all_particles()
 {
     free(particle_array);
     particle_count = 0;
     particle_array = NULL;
-}
-static struct relative_position char_pos_from_absolute(struct position *position)
-{
-    struct relative_position rel_pos;
-
-    // Returns char position and pixel position in char
-    int8_t abs_pos_x = position->x;
-    int8_t abs_pos_y = position->y;
-
-    // 16x2 5x8 ;16x5 = 80 absolute x;
-    // 2*8 = 16 absolute y
-    rel_pos.char_position.x = abs_pos_x / 5;
-    rel_pos.char_position.y = abs_pos_y / 8;
-    rel_pos.pixel_position.x = abs_pos_x % 5;
-    rel_pos.pixel_position.y = abs_pos_y % 8;
-
-    rel_pos.char_seq = rel_pos.char_position.y * 16 + rel_pos.char_position.x;
-    return rel_pos;
 }
