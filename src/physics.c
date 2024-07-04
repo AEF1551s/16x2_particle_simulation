@@ -52,6 +52,29 @@ static void add_wall_bounce(struct particle *particle)
     if (particle->pos.y >= 15 && particle->vel.y < 0)
         particle->vel.y = -particle->vel.y - top_buttom_const;
 }
+// Add linear rolling resistance
+static void add_rolling_resistance(struct particle *particle)
+{
+    // If is on ground, and vertical velocity is 0
+    if (particle->pos.y >= 15)
+    {
+        if (particle->vel.x < 0)
+            particle->vel.x += 1;
+
+        if (particle->vel.x > 0)
+            particle->vel.x -= 1;
+    }
+}
+// Check if any particle is stationary+1, if so add random acceleration in +y and velocity
+static void bump_y_stationary(struct particle *particle)
+{
+    // If particle is rolling on gound without vertical velocity
+    if (particle->vel.y <= 0 && particle->vel.x <= 1 && particle->vel.x >= -1 && particle->pos.y >= 15)
+    {
+        particle->vel.x = random_uint32() % 8;
+        particle->vel.y = random_uint32() % 8;
+    }
+}
 // Add particle to particle array for further use
 void add_particle(struct particle *particle)
 {
@@ -87,16 +110,6 @@ void randomize_particle(struct particle *particle)
     particle->vel.x = random_uint32() % 8;
     particle->vel.y = random_uint32() % 8;
 }
-// Check if any particle is stationary+1, if so add random acceleration in +y and velocity
-static void bump_y_stationary(struct particle *particle)
-{
-    // If particle is rolling on gound without vertical velocity
-    if (particle->vel.y <= 0 && particle->vel.x <= 1 && particle->vel.x >= -1 && particle->pos.y >= 15)
-    {
-        particle->vel.x = random_uint32() % 8;
-        particle->vel.y = random_uint32() % 8;
-    }
-}
 // Update particle position, velocity and acceleration.
 void update_particle(struct particle *particle)
 {
@@ -127,6 +140,7 @@ void update_all_particles()
     for (uint8_t i = 0; i < particle_count; i++)
     {
         update_particle(&particle_array[i]);
+        add_rolling_resistance(&particle_array[i]);
         bump_y_stationary(&particle_array[i]);
     }
 }
