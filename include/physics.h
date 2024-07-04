@@ -6,6 +6,7 @@
 #include <lcd_char_disp.h>
 #include <particle_char_generator.h>
 #include <positions.h>
+#include <hardware_rand.h>
 
 /*
 Position 0;0 is LCD top left corner. x+ axis is right direction; y+ axis is up direction;
