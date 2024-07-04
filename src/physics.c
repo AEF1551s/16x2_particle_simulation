@@ -38,19 +38,19 @@ static void force_lcd_borders(struct particle *particle)
 static void add_wall_bounce(struct particle *particle)
 {
     const int8_t top_buttom_const = 1;
-    const int8_t left_rigt_const = 2;
+    const int8_t left_rigt_const = 1;
     // Left side
     if (particle->pos.x <= 0 && particle->vel.x < 0)
-        particle->vel.x = -particle->vel.x / left_rigt_const; // Reverse direction and reduce speed
+        particle->vel.x = -particle->vel.x - left_rigt_const; // Reverse direction and reduce speed
     // Right side
     if (particle->pos.x >= 79 && particle->vel.x > 0)
-        particle->vel.x = -particle->vel.x / left_rigt_const;
+        particle->vel.x = -particle->vel.x + left_rigt_const;
     // Top
     if (particle->pos.y <= 0 && particle->vel.y > 0)
-        particle->vel.y = -particle->vel.y / top_buttom_const;
+        particle->vel.y = -particle->vel.y + top_buttom_const;
     // Bottom
     if (particle->pos.y >= 15 && particle->vel.y < 0)
-        particle->vel.y = -particle->vel.y / top_buttom_const;
+        particle->vel.y = -particle->vel.y - top_buttom_const;
 }
 // Add particle to particle array for further use
 void add_particle(struct particle *particle)
@@ -78,6 +78,15 @@ void add_particle(struct particle *particle)
 
     particle_array[particle_count] = *particle;
     particle_count++;
+}
+// Randomize particle velocity and position
+void randomize_particle(struct particle *particle)
+{
+    particle->pos.x = rand()%80;
+    particle->pos.y = rand()%18;
+    particle->acc.y = rand()%6;
+    particle->vel.x = rand()%8;
+    particle->vel.y = rand()%8;
 }
 // Update particle position, velocity and acceleration.
 void update_particle(struct particle *particle)
