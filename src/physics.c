@@ -82,11 +82,11 @@ void add_particle(struct particle *particle)
 // Randomize particle velocity and position
 void randomize_particle(struct particle *particle)
 {
-    particle->pos.x = rand()%80;
-    particle->pos.y = rand()%18;
-    particle->acc.y = rand()%6;
-    particle->vel.x = rand()%8;
-    particle->vel.y = rand()%8;
+    particle->pos.x = random_uint32() % 80;
+    particle->pos.y = random_uint32() % 18;
+    particle->acc.y = random_uint32() % 6;
+    particle->vel.x = random_uint32() % 8;
+    particle->vel.y = random_uint32() % 8;
 }
 // Update particle position, velocity and acceleration.
 void update_particle(struct particle *particle)
