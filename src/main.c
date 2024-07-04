@@ -5,12 +5,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 // USER
-#include <gpio.h>      //GPIO
-#include <exti.h>      //EXTERNAL INTERUPS
-#include <sipo_sreg.h> //SERIAL IN PARRALEL OUT SHIFT REGISTER
-#include <lcd_char_disp.h>
-#include <particle_char_generator.h>
-#include <physics.h>
+#include <gpio.h>                    //GPIO
+#include <exti.h>                    //EXTERNAL INTERUPS
+#include <sipo_sreg.h>               //SERIAL IN PARRALEL OUT SHIFT REGISTER
+#include <lcd_char_disp.h>           //16x2 CHARACTER DISPLAY
+#include <particle_char_generator.h> //PARTICLE GENERATOR FOR 16X2 CHAR DISPLAY
+#include <physics.h>                 //PARTICLES AND PHYSICS
 
 int main()
 {
