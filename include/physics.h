@@ -37,6 +37,7 @@ static void force_lcd_borders(struct particle *particle);
 static void add_wall_bounce(struct particle *particle);
 
 void add_particle(struct particle *particle);
+void randomize_particle(struct particle *particle);
 void update_particle(struct particle *particle);
 void update_all_particles();
 void display_all_particles();
