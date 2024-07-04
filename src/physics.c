@@ -84,9 +84,18 @@ void randomize_particle(struct particle *particle)
 {
     particle->pos.x = random_uint32() % 80;
     particle->pos.y = random_uint32() % 18;
-    particle->acc.y = random_uint32() % 6;
     particle->vel.x = random_uint32() % 8;
     particle->vel.y = random_uint32() % 8;
+}
+// Check if any particle is stationary+1, if so add random acceleration in +y and velocity
+static void bump_y_stationary(struct particle *particle)
+{
+    // If particle is rolling on gound without vertical velocity
+    if (particle->vel.y <= 0 && particle->vel.x <= 1 && particle->vel.x >= -1 && particle->pos.y >= 15)
+    {
+        particle->vel.x = random_uint32() % 8;
+        particle->vel.y = random_uint32() % 8;
+    }
 }
 // Update particle position, velocity and acceleration.
 void update_particle(struct particle *particle)
@@ -118,6 +127,7 @@ void update_all_particles()
     for (uint8_t i = 0; i < particle_count; i++)
     {
         update_particle(&particle_array[i]);
+        bump_y_stationary(&particle_array[i]);
     }
 }
 // Display all particles

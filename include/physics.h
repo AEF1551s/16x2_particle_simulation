@@ -36,6 +36,7 @@ static uint32_t particle_count = 0;
 static struct relative_position char_pos_from_absolute(struct position *position);
 static void force_lcd_borders(struct particle *particle);
 static void add_wall_bounce(struct particle *particle);
+static void bump_y_stationary(struct particle *particle);
 
 void add_particle(struct particle *particle);
 void randomize_particle(struct particle *particle);
