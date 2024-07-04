@@ -12,12 +12,18 @@
 #include <particle_char_generator.h> //PARTICLE GENERATOR FOR 16X2 CHAR DISPLAY
 #include <physics.h>                 //PARTICLES AND PHYSICS
 
-int main()
+//All board conifigurations add here
+void initialize()
 {
     // Setup
     lcd_char_disp_init();
     clear_display();
-
+}
+//Main
+int main()
+{
+    initialize();
+    
     struct particle particles[5];
     for (int i = 0; i < 5; i++)
     {
