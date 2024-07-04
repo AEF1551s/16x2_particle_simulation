@@ -11,33 +11,41 @@
 #include <lcd_char_disp.h>           //16x2 CHARACTER DISPLAY
 #include <particle_char_generator.h> //PARTICLE GENERATOR FOR 16X2 CHAR DISPLAY
 #include <physics.h>                 //PARTICLES AND PHYSICS
+#include <hardware_rand.h>           //HARDWARE RNG
 
-//All board conifigurations add here
+// All board conifigurations add here
 void initialize()
 {
+
     // Setup
     lcd_char_disp_init();
-    clear_display();
+    hard_rand_init();
 }
-//Main
+
+// Main
 int main()
 {
     initialize();
-    
+    output_string((char *){"Initialization  complete"});
+
+    // Add particles and randomize
     struct particle particles[5];
     for (int i = 0; i < 5; i++)
     {
         randomize_particle(&particles[i]);
         add_particle(&particles[i]);
     }
+    clear_display();
+    output_string((char *){"Random particlesgenerated"});
 
     // Loop
     while (true)
     {
+        clear_display();
+
         display_all_particles();
         for (volatile int i = 0; i < 50000; i++) // If delay is smaller then 30000, LCD doesnt reach its maximum contrast, hard to see the particle.
             ;
-        clear_display();
         update_all_particles();
     }
     free_all_particles();
