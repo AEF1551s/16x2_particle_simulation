@@ -27,6 +27,7 @@ uint32_t random_uint32()
     while (!drrdy_flag)
         ;
 
+    drrdy_flag = false;
     return rand_int;
 }
 
@@ -47,7 +48,6 @@ void HASH_RNG_IRQHandler(void)
     {
         clear_display();
         output_string((char *){"RNG ERROR"});
-
         drrdy_flag = false;
         CLEAR_REG(RNG->SR);
         return;
