@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME} src/main.c
                     src/particle_char_generator.c
                     src/physics.c
                     src/hardware_rand.c
+                    src/delay.c
                     startup/sysmem.c
                     startup/startup.c
 )
