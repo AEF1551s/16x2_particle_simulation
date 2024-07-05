@@ -8,6 +8,8 @@
 #include <stdbool.h>
 // Hardware
 #include <sipo_sreg.h>
+//User
+#include <delay.h>
 
 /*
 Uses SIPO shift register to write D0-D7 pins
@@ -16,12 +18,11 @@ GPIOC PIN6 - R/W - H: Read(MPU(Module) L: Write(MPU(Module)
 GPIOC PIN7 - RS - H: DATA, L: Instruction code
 */
 
-// PIN set/reset
+// PIN set/reset. Min pulse time = 140ns
 static inline void set_e_pin()
 {
     GPIOC->BSRR = GPIO_BSRR_BS_5;
-    for (volatile int i = 0; i < 2500; i++)
-        ;
+    delay_ms(1);
 }
 static inline void reset_e_pin() { GPIOC->BSRR = GPIO_BSRR_BR_5; }
 static inline void set_rw_pin() { GPIOC->BSRR = GPIO_BSRR_BS_6; }
