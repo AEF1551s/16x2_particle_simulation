@@ -4,7 +4,6 @@ void delay_init()
 {
     // AHB prescaler reset vaule = 0 = no prescaler
     // APB prescaler reset value = 0 = no prescaler
-
     // APB1 clock = 16MHz
 
     // Enable TIM6 APB1
@@ -15,18 +14,20 @@ void delay_init()
     SET_BIT(TIM6->CR1, TIM_CR1_OPM);
     // Update interrupt only from counter overflow/underflow
     SET_BIT(TIM6->CR1, TIM_CR1_URS);
-    // Set prescaler to 16000, equals to 1ms cycles
+    // Set prescaler to 16000.
     WRITE_REG(TIM6->PSC, (16000U - 1U));
 
     //  Enable interrupts
     SET_BIT(TIM6->DIER, TIM_DIER_UIE);
     NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
-// Delay in ms
+// Delay in ms. Maximum achievable delay is 65000ms. Actual maximum is 16 bit max value 2^16 -1
 void delay_ms(uint16_t ms)
 {
     if (ms == 0)
         return;
+    if (ms > 65000)
+        ms = 65000;
 
     // Write how many cycles (ms based on config)
     WRITE_REG(TIM6->ARR, ms);
