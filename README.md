@@ -5,6 +5,14 @@ Uses RNG, timer (TIM6) and interrupts.
 Everything in /src and /include is written in **bare-metal**.   
 ## Working example  
 ![WhatsAppVideo2024-07-05at23 52 55-ezgif com-optimize](https://github.com/AEF1551s/16x2_particle_simulation/assets/65708516/32a1a61f-b702-4039-9941-beb83fe7da17)  
+## Project pinout
+<details>
+  <summary>Expand</summary>  
+  
+![Screenshot from 2024-07-06 02-28-42](https://github.com/AEF1551s/16x2_particle_simulation/assets/65708516/b9d0f2de-a9aa-421d-9aae-6ade8df3f8d6)
+
+</details> 
+
 ## Prerequisites
 
 - CMake
@@ -105,4 +113,4 @@ When using compiler optimization, flags were removed. Solution: add `volatile` k
 Sometimes LCD screen didn't work, but signals were sent. Solution: add long enough delay to LCD functions based from documentation.  
 
 ## Possible optimizations  
-In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in same LCD character space.  
+In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in single LCD character space.  
