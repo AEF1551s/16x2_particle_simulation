@@ -89,7 +89,7 @@ Run make in /build to compile:
   
 
 ## Flashing
-Flashing is done using OpenOCD and flashes every time compilation time.  
+Flashing is done using OpenOCD and flashes every compilation time.  
 The openocd command is excecuted as post-build command.  
 To change the interface and target configuration, see CMakeLists.txt `openocd_flags`.  
 
