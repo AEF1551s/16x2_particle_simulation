@@ -1,10 +1,10 @@
 
 # Description
-
-Particle simulation on 16x2 char display.
-# In development..
-  
-
+Particle simulation on 16x2 char display.  
+Uses RNG, timer (TIM6) and interrupts.    
+Everything in /src and /include is written in **bare-metal**.   
+## Working example  
+![WhatsAppVideo2024-07-05at23 52 55-ezgif com-optimize](https://github.com/AEF1551s/16x2_particle_simulation/assets/65708516/32a1a61f-b702-4039-9941-beb83fe7da17)  
 ## Prerequisites
 
 - CMake
@@ -75,20 +75,16 @@ See official installation and user guides
 Go to project directory and create build folder:
 `$ mkdir build`
 Generate Makefiles, example is given with *Unix Makefiles*:
-`$ cmake -G "Unix Makefiles" -B ./build`
-Then build project without flashing option:
-`$ cmake -D FLASH=OFF build`
+`$ cmake -G "Unix Makefiles" -B ./build`  
 Run make in /build to compile:
 `$ make`
   
 
 ## Flashing
-Flashing is done using OpenOCD. To flash you must specify `-D FLASH=ON` when building the project.
-The openocd command is excecuted as post-build command.
-To change the interface and target configuration, see CMakeLists.txt `openocd_flags`.
-  
- Build project with flashing option:
-`$ cmake -D FLASH=ON build`
+Flashing is done using OpenOCD and flashes every time compilation time.  
+The openocd command is excecuted as post-build command.  
+To change the interface and target configuration, see CMakeLists.txt `openocd_flags`.  
+
 Run make in /build to compile and flash:
 `$ make`
 
@@ -105,4 +101,8 @@ To see register contents, access serial output and read memory use extensions su
 For additional debug features, setup VSCode as per **extension setup guides**.
 
 ## Encountered problems and solutions
-...  
+When using compiler optimization, flags were removed. Solution: add `volatile` keyword.  
+Sometimes LCD screen didn't work, but signals were sent. Solution: add long enough delay to LCD functions based from documentation.  
+
+## Possible optimizations  
+In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in same LCD character space.  
