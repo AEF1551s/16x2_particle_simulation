@@ -49,11 +49,12 @@ set(openocd_flags
     -l openocdlog
 )
 
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND openocd ${openocd_flags} )
-# -D FLASH=ON
-if(FLASH==ON)
-message("run make to flash")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND openocd ${openocd_flags} )
-endif()         
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+COMMAND openocd ${openocd_flags} )
+
+# # -D FLASH=ON
+# if(FLASH==ON)
+# message("run make to flash")
+#     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND openocd ${openocd_flags} )
+# endif()         
