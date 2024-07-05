@@ -20,12 +20,15 @@ void clear_display()
 {
     uint8_t data = 0x00 | 1U << 0;
     send_function(&data, false, false);
+    delay_ms(2); //Execution time
+
 }
 // Set DDRAM address to “00H” from AC and return cursor to its original position if shifted
 void return_home()
 {
     uint8_t data = 0x00 | 1U << 1;
     send_function(&data, false, false);
+    delay_ms(2); //Execution time
 }
 // Assign cursor moving direction and enable the shift of entire display
 void entry_mode_set(bool cursor_direction, bool shift_display)
