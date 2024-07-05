@@ -1,7 +1,7 @@
 
 # Description
-Particle simulation on 16x2 char display.  
-Uses RNG, timer (TIM6) and interrupts.    
+Particle simulation on 16x2 LCD character display.  
+Uses RNG, timer (TIM6) and interrupts and external SIPO shift register to send data to LCD character display.   
 Everything in /src and /include is written in **bare-metal**.   
 ## Working example  
 ![WhatsAppVideo2024-07-05at23 52 55-ezgif com-optimize](https://github.com/AEF1551s/16x2_particle_simulation/assets/65708516/32a1a61f-b702-4039-9941-beb83fe7da17)  
