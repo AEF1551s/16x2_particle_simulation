@@ -14,7 +14,7 @@
 Generated random number using STM32F4 RNG and interrupts
 */
 
-static bool drrdy_flag = false;
+volatile static bool drrdy_flag = false;
 static uint32_t rand_int = 0;
 
 void hard_rand_init();

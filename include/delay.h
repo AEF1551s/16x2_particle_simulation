@@ -16,7 +16,7 @@ With default clock configuration SYSCLK and AHB AND APB are 16Mhz (HSI clock).
 Delay uses TIM6 with 16000 prescaler which makes 1 interrupt cycle 1ms. 
 */
 
-static bool flag = false;
+volatile static bool flag = false;
 
 void delay_init();
 void delay_ms(uint16_t ms);
