@@ -12,7 +12,7 @@ set(compiler_flags
     "-mcpu=cortex-m4 -mthumb -g -O0 "
 )
 set(linker_flags
-    "-specs=nosys.specs -T /home/roboros/stm32_projects/stm32_crosscomp/startup/stm32f410rbtx.ld -nostdlib -ffreestanding"
+    "-specs=nosys.specs -T /home/roboros/stm32_projects/stm32_crosscomp/startup/stm32f410rbtx.ld"
 )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${compiler_flags}")
