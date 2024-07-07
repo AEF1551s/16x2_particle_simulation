@@ -9,18 +9,21 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
     }
 
     struct char_seq_cgram_count *result = (struct char_seq_cgram_count *)malloc(sizeof(struct char_seq_cgram_count));
-
+    assert(result != NULL);
     uint8_t used_addr = particle_count;
     uint8_t current_addr = 0;
 
     // Used_index to keep track of already checked indexes.
     bool *checked = (bool *)calloc(particle_count, sizeof(bool));
+    assert(checked != NULL);
     // Array to write into CGRAM
     uint8_t *array = (uint8_t *)calloc(CHAR_HEIGTH, sizeof(uint8_t));
+    assert(array != NULL);
 
     uint8_t result_char_array_size = 1;
     uint8_t result_char_array_count = 0;
     uint8_t *result_char_array = (uint8_t *)malloc(sizeof(uint8_t) * result_char_array_size);
+    assert(result_char_array != NULL);
 
     bool first_time = true;
 
@@ -43,6 +46,7 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
             result_char_array_size++;
             result_char_array_count++;
             result_char_array = (uint8_t *)realloc(result_char_array, sizeof(uint8_t) * result_char_array_size);
+            assert(result_char_array != NULL);
         }
 
         uint8_t base_row = rows[i];

@@ -7,6 +7,8 @@
 // USER
 #include <lcd_char_disp.h>
 #include <positions.h>
+//DEBUG
+#include <assert.h>
 
 #define CHAR_WIDTH 5
 #define CHAR_HEIGTH 8

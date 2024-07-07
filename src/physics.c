@@ -98,6 +98,7 @@ void add_particle(struct particle *particle)
         // Copy previous particles, add new
         particle_array = realloc(particle_array, sizeof(struct particle) * (particle_count + 1));
     }
+    assert(particle_array != NULL);
 
     particle_array[particle_count] = *particle;
     particle_count++;
