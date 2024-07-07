@@ -88,16 +88,8 @@ void add_particle(struct particle *particle)
 
     force_lcd_borders(particle);
 
-    // Allocate space for particles
-    if (particle_count == 0)
-    {
-        particle_array = (struct particle *)malloc(sizeof(struct particle));
-    }
-    if (particle_count > 0)
-    {
-        // Copy previous particles, add new
-        particle_array = realloc(particle_array, sizeof(struct particle) * (particle_count + 1));
-    }
+    // Allocate space for particles, if particle_array = NULL the it works same as malloc()
+    particle_array = realloc(particle_array, sizeof(struct particle) * (particle_count + 1));
     assert(particle_array != NULL);
 
     particle_array[particle_count] = *particle;
