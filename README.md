@@ -114,3 +114,4 @@ Sometimes LCD screen didn't work, but signals were sent. Solution: add long enou
 
 ## Possible optimizations  
 In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in single LCD character space.  
+Also dynamic memory is much slower then static (stack), but in this case it likely wouldn't lower the execution time as much as above mentioned solution.  
