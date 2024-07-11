@@ -1,4 +1,5 @@
 #include <global_clock.h>
+//Initialize TIM11
 static void tim11_init()
 {
     // AHB prescaler reset vaule = 0 = no prescaler
@@ -20,6 +21,7 @@ static void tim11_init()
     NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
 }
 
+//Initilize TIM11 and start couting. Interrupt occurs every ms cycle
 void frame_time_ms(uint16_t ms)
 {
     tim11_init();
