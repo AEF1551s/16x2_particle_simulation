@@ -172,6 +172,41 @@ void display_all_particles()
     free(cgram_count);
     cgram_count = NULL;
 }
+
+void display_particles(struct char_seq_cgram_count *cgram_count)
+{
+    for (uint8_t i = 0; i < cgram_count->addr_count; i++)
+    {
+        output_char(&(uint8_t){i}, cgram_count->char_index_arr[i]);
+    }
+    free(cgram_count->char_index_arr);
+    cgram_count->char_index_arr = NULL;
+    free(cgram_count);
+    cgram_count = NULL;
+}
+struct char_seq_cgram_count *buffer_particles()
+{
+    if (particle_count == 0)
+        return NULL;
+
+    // Save all particle relative positions into array
+    // struct relative_position *rel_pos_array = (struct relative_position *)malloc(sizeof(struct relative_position) * particle_count);
+    uint8_t rows_array[particle_count];
+    uint8_t cols_array[particle_count];
+    uint8_t char_index_array[particle_count];
+
+    for (uint32_t i = 0; i < particle_count; i++)
+    {
+        struct relative_position rel_pos = char_pos_from_absolute(&particle_array[i].pos);
+        rows_array[i] = rel_pos.pixel_position.y;
+        cols_array[i] = rel_pos.pixel_position.x;
+        char_index_array[i] = rel_pos.char_seq;
+    }
+
+    struct char_seq_cgram_count *cgram_count = generate_pixel_chars(rows_array, cols_array, char_index_array, particle_count);
+    return cgram_count;
+}
+
 // Free particle_array memory
 void free_all_particles()
 {

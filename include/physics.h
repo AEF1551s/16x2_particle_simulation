@@ -48,4 +48,7 @@ void update_all_particles();
 void display_all_particles();
 void free_all_particles();
 
+void display_particles(struct char_seq_cgram_count *cgram_count);
+struct char_seq_cgram_count *buffer_particles();
+
 #endif // PHYSICS_H
