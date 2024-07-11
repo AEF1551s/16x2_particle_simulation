@@ -172,7 +172,7 @@ void display_all_particles()
     free(cgram_count);
     cgram_count = NULL;
 }
-
+// Displa all particles from buffer parameter
 void display_particles(struct char_seq_cgram_count *cgram_count)
 {
     for (uint8_t i = 0; i < cgram_count->addr_count; i++)
@@ -184,6 +184,7 @@ void display_particles(struct char_seq_cgram_count *cgram_count)
     free(cgram_count);
     cgram_count = NULL;
 }
+// Buffer single particle into CGRAM
 struct char_seq_cgram_count *buffer_particles()
 {
     if (particle_count == 0)
