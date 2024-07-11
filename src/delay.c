@@ -5,7 +5,6 @@ void delay_init()
     // AHB prescaler reset vaule = 0 = no prescaler
     // APB prescaler reset value = 0 = no prescaler
     // APB1 clock = 16MHz
-
     // Enable TIM6 APB1
     SET_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM6EN);
     // Enable auto-reload preload - AR changes take place after UE
@@ -19,6 +18,7 @@ void delay_init()
 
     //  Enable interrupts
     SET_BIT(TIM6->DIER, TIM_DIER_UIE);
+    NVIC_SetPriority(TIM6_DAC_IRQn, 6);
     NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 // Delay in ms. Maximum achievable delay is 65000ms. Actual maximum is 16 bit max value 2^16 -1
