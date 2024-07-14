@@ -100,7 +100,6 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             skipped_frames = 0;
             frame = true;
             ready = false;
-            // WRITE_REG(TIM11->ARR, frame_time);
             display_particles(particle_buffer);
             delay_ms(10);
         }
