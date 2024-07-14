@@ -83,8 +83,7 @@ int main()
 // Interrupts
 void TIM1_TRG_COM_TIM11_IRQHandler(void)
 {
-    static int dt = 0;
-    static uint32_t skipped_frames = 0;
+    volatile static uint32_t skipped_frames;
 
     if (READ_BIT(TIM11->SR, TIM_SR_UIF))
     {
@@ -92,8 +91,16 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
         CLEAR_BIT(TIM11->SR, TIM_SR_UIF);
         if (ready)
         {
+            //Skipped frame waiting time compensation for next frame.
+            int dt = frame_time - skipped_frames * skipped_wait_time;
+            if (dt <= 1)
+                dt = 2; //1ms waiting time
+            WRITE_REG(TIM11->ARR, (uint32_t)dt);
+
+            skipped_frames = 0;
             frame = true;
             ready = false;
+            // WRITE_REG(TIM11->ARR, frame_time);
             display_particles(particle_buffer);
             delay_ms(10);
         }
@@ -102,20 +109,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
             skipped_frames++;
             // Wait in 10ms increments until frame is ready
             WRITE_REG(TIM11->ARR, skipped_wait_time);
-            /*
-            Simple frame time compensation. If skipped wait time exceeds frame time,
-            there is no delay betweem frames - calculation of each frame takes longer then
-            frame time and performance drop is seen
-            */
-            dt = frame_time - skipped_wait_time * skipped_frames;
-            if (dt < 0)
-            {
-                dt = 0;
-            }
-            WRITE_REG(TIM11->ARR, (uint16_t)dt);
         }
     }
-    dt = 0;
-    skipped_frames = 0;
     SET_BIT(TIM11->CR1, TIM_CR1_CEN);
 }
