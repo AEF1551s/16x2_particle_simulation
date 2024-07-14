@@ -113,5 +113,6 @@ When using compiler optimization, flags were removed. Solution: add `volatile` k
 Sometimes LCD screen didn't work, but signals were sent. Solution: add long enough delay to LCD functions based from documentation.  
 
 ## Possible optimizations  
-In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in single LCD character space.  
-Also dynamic memory is much slower then static (stack), but in this case it likely wouldn't lower the execution time as much as above mentioned solution.  
+1. In `particle_char_generator.h` generate_pixel_chars(..) in worst case is O(n^2). Optimization: implement faster method to check for same particle in single LCD character space.
+2. Frame buffer and global frame time. Even frame buffer of size 1 improves performance until particle count is more then 4. After there are noticable frame drops - character generations takes more time then frame time and not even larger frame buffer would be enough.
+3. Use of stack insted of heap, but in this case it likely wouldn't lower the execution time as much as above faster character generation algorithm.  
