@@ -53,7 +53,15 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
         uint8_t base_col = cols[i];
 
         if (base_row >= CHAR_HEIGTH || base_col >= CHAR_WIDTH)
+        {
+            free(checked);
+            checked = NULL;
+            free(array);
+            array = NULL;
+            free(result_char_array);
+            result_char_array = NULL;
             return NULL;
+        }
         // col is from 0 to 4, char width is from 1-5
         base_col = CHAR_WIDTH - base_col - 1;
 
@@ -76,7 +84,15 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
                 uint8_t col = cols[j];
 
                 if (row >= CHAR_HEIGTH || col >= CHAR_WIDTH)
+                {
+                    free(checked);
+                    checked = NULL;
+                    free(array);
+                    array = NULL;
+                    free(result_char_array);
+                    result_char_array = NULL;
                     return NULL;
+                }
                 col = CHAR_WIDTH - col - 1;
 
                 array[row] |= 1U << col;
