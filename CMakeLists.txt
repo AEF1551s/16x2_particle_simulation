@@ -13,6 +13,8 @@ add_executable(${PROJECT_NAME} src/main.c
                     src/hardware_rand.c
                     src/delay.c
                     src/global_clock.c
+                    debug/uart2.c
+                    debug/serial_com.c
                     startup/sysmem.c
                     startup/startup.c
 )
@@ -21,6 +23,7 @@ target_include_directories(${PROJECT_NAME}
 PRIVATE ${CMAKE_SOURCE_DIR}/drivers/CMSIS/include
 PRIVATE ${CMAKE_SOURCE_DIR}/drivers/CMSIS/device
 PRIVATE ${CMAKE_SOURCE_DIR}/include
+PRIVATE ${CMAKE_SOURCE_DIR}/debug
                             )
 
 # Post-build command to generate elf file from executable
