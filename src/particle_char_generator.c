@@ -60,6 +60,8 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
             array = NULL;
             free(result_char_array);
             result_char_array = NULL;
+            free(result);
+            result = NULL;
             return NULL;
         }
         // col is from 0 to 4, char width is from 1-5
@@ -91,6 +93,8 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
                     array = NULL;
                     free(result_char_array);
                     result_char_array = NULL;
+                    free(result);
+                    result = NULL;
                     return NULL;
                 }
                 col = CHAR_WIDTH - col - 1;
