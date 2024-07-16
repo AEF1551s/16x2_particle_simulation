@@ -12,6 +12,14 @@
 #include <hardware_rand.h>           //HARDWARE RNG
 #include <delay.h>                   //DELAY TIM6
 #include <global_clock.h>            //GLOBAL CLOCK
+// DEBUG
+#include <serial_com.h>              //UART2 SERIAL COM
+
+// Debug initialization
+void debug_init()
+{
+    serial_com_init();
+}
 
 //  All board conifigurations add here
 void initialize()
@@ -21,13 +29,17 @@ void initialize()
     Initialization functions MUST be initialized in this order.
     For example, if delay is not initialized but its functions called, it will not perform counting and get stuck in loop
     */
+
+    // DEBUG
+    debug_init();
+
+    // RELEASE
     NVIC_SetPriorityGrouping(TIM5_IRQn);
     delay_init();
     hard_rand_init();
     lcd_char_disp_init();
     output_string((char *){"Initialization  complete"});
     delay_ms(1000);
-    // delay is more then frame
 }
 
 volatile bool ready = false;
@@ -70,7 +82,9 @@ int main()
         */
         clear_display();
         frame = false;
+        printf("Buffer start\n");
         particle_buffer = buffer_particles();
+        printf("Buffer end\n");
         ready = true;
         while (!frame)
             ;
@@ -91,10 +105,11 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
         CLEAR_BIT(TIM11->SR, TIM_SR_UIF);
         if (ready)
         {
-            //Skipped frame waiting time compensation for next frame.
+            printf("Skipped frames: %d\n", skipped_frames);
+            // Skipped frame waiting time compensation for next frame.
             int dt = frame_time - skipped_frames * skipped_wait_time;
             if (dt <= 1)
-                dt = 2; //1ms waiting time
+                dt = 2; // 1ms waiting time
             WRITE_REG(TIM11->ARR, (uint32_t)dt);
 
             skipped_frames = 0;
