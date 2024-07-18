@@ -56,8 +56,8 @@ int main()
     initialize();
 
     // Add particles and randomize
-    struct particle particles[3];
-    for (int i = 0; i < 3; i++)
+    struct particle particles[8];
+    for (int i = 0; i < 8; i++)
     {
         randomize_particle(&particles[i]);
         add_particle(&particles[i]);
