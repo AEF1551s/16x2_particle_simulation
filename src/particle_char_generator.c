@@ -30,24 +30,18 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
     // Check for same particles in single LCD character
     for (uint8_t i = 0; i < particle_count; i++)
     {
-        if (checked[i] == true)
+
+        // 0 the array for new particle
+        for (uint8_t k = 0; k < CHAR_HEIGTH; k++)
         {
-            continue;
+            array[k] = 0x00;
         }
-        else
-        {
-            // 0 the array for new particle
-            for (uint8_t k = 0; k < CHAR_HEIGTH; k++)
-            {
-                array[k] = 0x00;
-            }
-            // Saves primary char indexes into array
-            result_char_array[result_char_array_count] = char_indexes[i];
-            result_char_array_size++;
-            result_char_array_count++;
-            result_char_array = (uint8_t *)realloc(result_char_array, sizeof(uint8_t) * result_char_array_size);
-            assert(result_char_array != NULL);
-        }
+        // Saves primary char indexes into array
+        result_char_array[result_char_array_count] = char_indexes[i];
+        result_char_array_size++;
+        result_char_array_count++;
+        result_char_array = (uint8_t *)realloc(result_char_array, sizeof(uint8_t) * result_char_array_size);
+        assert(result_char_array != NULL);
 
         uint8_t base_row = rows[i];
         uint8_t base_col = cols[i];
@@ -69,15 +63,8 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
 
         array[base_row] |= 1U << base_col;
 
-        checked[i] = true;
-
-        for (uint8_t j = 0; j < particle_count; j++)
+        for (uint8_t j = i + 1; j < particle_count; j++)
         {
-            // Skip check with itself
-            if (i == j)
-                continue;
-            if (checked[j] == true)
-                continue;
             if (char_indexes[i] == char_indexes[j])
             {
                 checked[j] = true;
@@ -104,7 +91,6 @@ struct char_seq_cgram_count *generate_pixel_chars(uint8_t *rows, uint8_t *cols, 
                 used_addr--;
             }
         }
-
         add_custom_char(current_addr, array, CHAR_HEIGTH, first_time);
         first_time = false;
         current_addr++;
